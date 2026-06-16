@@ -1,0 +1,93 @@
+# Editor / backup files
+*~
+~*
+*.bak
+*.orig
+*.rej
+*.swp
+*.swo
+
+# macOS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# tags / indexes
+TAGS
+tags
+GPATH
+GRTAGS
+GTAGS
+
+# C / C++ build artifacts
+*.o
+*.lo
+*.la
+*.a
+*.dylib
+*.so
+*.mod
+*.gcno
+*.gcda
+*.gcov
+
+# Qt / Creator local files
+*.pro.user
+*.pro.user.*
+*.user
+*.user.*
+*.qbs.user
+*.qbs.user.*
+
+# CMake generated files/directories
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+install_manifest.txt
+compile_commands.json
+Testing/
+
+# Out-of-source build directories
+build/
+_build/
+cmake-build-debug/
+cmake-build-release/
+cmake-build-relwithdebinfo/
+cmake-build-minsizerel/
+
+# Ninja / generated build files
+.ninja_deps
+.ninja_log
+build.ninja
+rules.ninja
+
+# Generated Makefiles
+Makefile
+
+# CPack / macOS packaging output
+_CPack_Packages/
+*.dmg
+*.pkg
+*.zip
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+
+# macOS app bundle output
+*.app/
+*.app.dSYM/
+*.dSYM/
+
+# Python/cache helpers
+__pycache__/
+*.py[cod]
+
+# Project temp files
+junk*
+jnq*
+fnd
+lib/77bit/tmp/
+lib/tmp/
+
