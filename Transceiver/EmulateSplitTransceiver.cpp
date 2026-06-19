@@ -9,7 +9,8 @@ EmulateSplitTransceiver::EmulateSplitTransceiver(logger_type * logger,
   , wrapped_ {std::move(wrapped)}
   , rx_frequency_ {0}
   , tx_frequency_ {0}
-  , split_ {false} {
+  , split_ {false}
+  , busy_rxtx_ {false} {
   // Connect update signal of wrapped Transceiver object instance to ours.
   connect(wrapped_.get(), &Transceiver::update, this, &EmulateSplitTransceiver::handle_update);
   // Connect other signals of wrapped Transceiver object to our
@@ -29,6 +30,11 @@ void EmulateSplitTransceiver::set(TransceiverState const& s, unsigned sequence_n
   rx_frequency_ = s.frequency();
   tx_frequency_ = s.tx_frequency();
   split_ = s.split();
+
+  if (split_ && s.ptt()) {
+    busy_rxtx_ = true;
+  }
+
   TransceiverState emulated_state {s};
   if (s.ptt() && split_) { emulated_state.frequency(s.tx_frequency()); }
   emulated_state.split(false);
@@ -46,14 +52,19 @@ void EmulateSplitTransceiver::handle_update(TransceiverState const& state,
   } else {
     TransceiverState new_state {state};
     // Follow the rig if in RX mode.
-    if (state.ptt()) { new_state.frequency(rx_frequency_); }
+    if (state.ptt()) {
+      busy_rxtx_ = false;
+      new_state.frequency(rx_frequency_);
+    }
     // These are always what was requested in prior set state operation
     new_state.tx_frequency(tx_frequency_);
     new_state.split(split_);
 #if WSJT_TRACE_CAT
     qDebug() << "EmulateSplitTransceiver::handle_update: signalling:" << state;
 #endif
-    // signal emulated state
-    Q_EMIT update(new_state, sequence_number);
+    if (!busy_rxtx_) {
+      // signal emulated state
+      Q_EMIT update(new_state, sequence_number);
+    }
   }
 }

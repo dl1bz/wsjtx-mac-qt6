@@ -1122,10 +1122,8 @@ void TCITransceiver::do_frequency(Frequency f, MODE m, bool no_ignore) {
       mysleep7(2000);
       // if (band_change) mysleep7(500);
       band_change2 = abs(rx_frequency_.toInt() - requested_rx_frequency_.toInt()) > 1000000;
-      if (!band_change2) {
-        //update_rx_frequency (f);  // DL1YCF
-        //if (requested_rx_frequency_ == rx_frequency_) update_rx_frequency (f);
-      } else {
+      if (!band_change2) update_rx_frequency(f);
+      else {
         printf("%s TCI failed set rxfreq:%s->%s\n",
                QDateTime::QDateTime::currentDateTimeUtc().toString("hh:mm:ss.zzz").toStdString().c_str(),
                rx_frequency_.toStdString().c_str(), requested_rx_frequency_.toStdString().c_str());
